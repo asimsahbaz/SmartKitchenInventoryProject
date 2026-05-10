@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { apiClient } from '../api/client';
 import { useAuthStore } from '../store/authStore';
 import { LogOut, ShoppingCart, BookOpen, BarChart2 } from 'lucide-react';
+import NotificationBell from '../components/NotificationBell';
 
 interface Summary {
   totalItems: number;
@@ -35,6 +36,7 @@ export default function DashboardPage() {
             <span className="font-bold text-gray-900">PantryPal</span>
           </div>
           <div className="flex items-center gap-3">
+            <NotificationBell />
             <span className="text-sm text-gray-500 hidden sm:block">{user?.email}</span>
             <button onClick={handleLogout} className="text-gray-400 hover:text-gray-600">
               <LogOut size={18} />
