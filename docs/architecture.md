@@ -555,3 +555,24 @@ See full threat model: [`docs/threat-model.md`](threat-model.md)
 - All incoming request bodies validated with Zod schemas at the controller boundary
 - Validation errors return structured 422 responses (see Error Taxonomy)
 - Prisma's parameterized queries prevent SQL injection at the ORM level
+
+---
+
+## Feature Decomposition
+
+| Feature | User Story | Backend Module | Frontend Page | Key Domain Concept |
+|---------|-----------|----------------|---------------|-------------------|
+| User Authentication | As a user, I want to register and log in so my pantry is private | features/auth — AuthService, AuthController | LoginPage | User, JWT Token, Role |
+| Pantry Management | As a user, I want to add, edit and delete ingredients in my pantry | features/pantry — PantryService, PantryRepository | PantryPage | PantryItem, Category, Unit |
+| Expiration Tracking | As a user, I want to see which items are expiring soon so I can use them first | Part of PantryService — enrichWithExpiryStatus() | ExpiryBadge in PantryPage | ExpiryStatus enum |
+| Recipe Suggestions | As a user, I want to see recipes I can make with what I have | features/recipes — RecipeService with match algorithm | RecipesPage | Recipe, MatchScore, MissingIngredients |
+| Shopping List | As a user, I want to generate a shopping list for missing ingredients | features/shopping-list — ShoppingListService | ShoppingListPage | ShoppingList, ShoppingItem |
+| Analytics Dashboard | As a user, I want to see a summary of my pantry health | features/analytics — AnalyticsService | DashboardPage | CategoryCount, ExpiryStats |
+| Notifications | As a user, I want to be alerted when items expire | features/notifications — NotificationService | NotificationBell | Notification, NotificationType |
+
+### Feature Dependency Map
+
+- Authentication is the foundation — all other features require a logged-in user
+- Pantry data feeds into Expiration Tracking, Recipe Suggestions, and Analytics
+- Recipe Suggestions feeds into Shopping List generation
+- Notifications are triggered by Expiration Tracking results
