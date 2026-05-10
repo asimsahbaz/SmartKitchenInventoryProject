@@ -1,4 +1,12 @@
 import { Router } from 'express';
+import { RecipeController } from './recipe.controller';
+import { authMiddleware } from '../../shared/middleware/authMiddleware';
+
 const router = Router();
-router.get('/test', (_req, res) => res.json({ message: 'recipes route works' }));
+const controller = new RecipeController();
+
+router.use(authMiddleware);
+router.get('/', (req, res, next) => controller.getAll(req, res, next));
+router.get('/:id', (req, res, next) => controller.getOne(req, res, next));
+
 export { router as recipeRouter };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { usePantryStore, PantryItem } from '../store/pantryStore';
 import { useAuthStore } from '../store/authStore';
 import { Search, Plus, Trash2, LogOut, RefreshCw } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const statusColors: Record<string, string> = {
@@ -21,6 +22,7 @@ const statusLabels: Record<string, string> = {
 export default function PantryPage() {
   const { items, isLoading, fetchItems, addItem, deleteItem } = usePantryStore();
   const { user, logout } = useAuthStore();
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [showAdd, setShowAdd] = useState(false);
   const [form, setForm] = useState({ name: '', quantity: 1, unit: 'pcs', expiryDate: '' });
@@ -69,6 +71,7 @@ export default function PantryPage() {
           <div className="flex items-center gap-2">
             <span className="text-2xl">🥦</span>
             <span className="font-bold text-gray-900">PantryPal</span>
+          <button onClick={() => navigate("/recipes")} className="text-sm text-green-600 hover:text-green-700 font-medium">Recipes</button>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-sm text-gray-500 hidden sm:block">{user?.email}</span>

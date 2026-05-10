@@ -4,6 +4,8 @@ import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './store/authStore';
 import LoginPage from './pages/LoginPage';
 import PantryPage from './pages/PantryPage';
+import RecipesPage from './pages/RecipesPage';
+import ShoppingListPage from './pages/ShoppingListPage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuthStore();
@@ -24,11 +26,9 @@ export default function App() {
       <Toaster position="top-right" />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={
-          <ProtectedRoute>
-            <PantryPage />
-          </ProtectedRoute>
-        } />
+        <Route path="/" element={<ProtectedRoute><PantryPage /></ProtectedRoute>} />
+        <Route path="/recipes" element={<ProtectedRoute><RecipesPage /></ProtectedRoute>} />
+        <Route path="/shopping-list" element={<ProtectedRoute><ShoppingListPage /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
